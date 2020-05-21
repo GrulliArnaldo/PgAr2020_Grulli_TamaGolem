@@ -7,14 +7,28 @@ public class Element
 	private String elementName;
 	private ArrayList<Matchup> matchupList = new ArrayList<Matchup>();
 	
-	public Element(String elementName)
-	{
+	public Element(String elementName){
 		this.elementName = elementName;
 	}
 
 
-	public String getElementName()
-	{
+	public String getElementName(){
 		return elementName;
 	}
+
+
+	public ArrayList<Matchup> getMatchupList() {
+		return matchupList;
+	}
+
+
+	public void setMatchupList(ArrayList<Matchup> matchupList) {
+		this.matchupList = matchupList;
+	}
+
+
+	public void setElementName(String elementName) {
+		this.elementName = elementName;
+	}
+	
 }
