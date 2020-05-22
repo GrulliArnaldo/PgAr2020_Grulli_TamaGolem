@@ -141,7 +141,7 @@ public class Equilibrium {
 			sum = 0;
 			for(int i=0; i<breakParts.length-1; i++) {
 				do {
-					breakParts[i] = random.nextInt((int)(Math.abs(elementNumber)/2))-random.nextInt((int)(Math.abs(elementNumber/2)));
+					breakParts[i] = random.nextInt((int)(elementNumber/2))-random.nextInt((int)(elementNumber/2));
 				}while(breakParts[i] == 0);
 				sum += breakParts[i];
 			}
@@ -173,5 +173,21 @@ public class Equilibrium {
 		for (int i=0; i<matrix.length; i++)
 			sum += matrix[i][columnIndex];
 		return sum;
+	}
+	
+	/**
+	 * calcola il massimo valore in una matrice
+	 * @param matrix matrice di riferimento
+	 * @return resituisce un integer
+	 */
+	public static int getMatrixMax(int[][] matrix) {
+		int max = 0;
+		
+		for(int i = 0; i<matrix.length;i++)
+			for (int j = 0; j<matrix.length; j++)
+				if (max<matrix[i][j])
+					max = matrix[i][j];
+		
+		return max;
 	}
 }
