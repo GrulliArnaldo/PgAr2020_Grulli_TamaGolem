@@ -7,25 +7,7 @@ import java.util.Random;
 
 public class Equilibrium {
 	
-	private static final String[] ELEMENT_NAMES = {
-			"NORMAL",
-			"FIRE",
-			"WATER",
-			"GRASS",
-			"ELECTRIC",
-			"ICE",
-			"FIGHTING",
-			"POISON",
-			"GROUND",
-			"FLYING",
-			"PSYCHIC",
-			"BUG",
-			"ROCK",
-			"GHOST",
-			"DARK",
-			"DRAGON",
-			"STEEL",
-			"FAIRY"};
+	
 	
 	/**
 	 * dato un numero di nodi(nel nostro caso elementi)
@@ -76,6 +58,17 @@ public class Equilibrium {
 	}
 	
 	/**
+	 * crea la matrice finale mettendo inisieme i 3 metodi
+	 * @param elementNumber numeri di elementi della matrice finale
+	 * @return restituisce una matrice int
+	 */
+	public static int[][] getEquilibriumMatrix(int elementNumber){
+		int[][] matrix = Equilibrium.getHighMatrix(elementNumber);
+		int[][] matrixTrasposed = Equilibrium.getLowMatrix(matrix);
+		return Equilibrium.antisymmetricMatrix(matrix, matrixTrasposed);
+	}
+	
+	/**
 	 * prende i valori da una matrice e crea una mappa di elementi, e all'interno dei rispettivi elementi, 
 	 * gli archi con le rispettive direzioni e pesi 
 	 * @param matrix la matrice antisimmetrica di riferimento
@@ -85,10 +78,10 @@ public class Equilibrium {
 		Map<Integer, Element> map = new HashMap<Integer, Element>();
 		
 		for(int i=0; i<matrix.length;i++) {
-			map.put(i, new Element(ELEMENT_NAMES[i]));
+			map.put(i, new Element(Element.ELEMENT_NAMES[i]));
 			for(int j=0; j<matrix.length;j++)
 				if (matrix[i][j]>0)
-					map.get(i).getMatchupList().add(new Matchup(new Element(ELEMENT_NAMES[j]), matrix[i][j]));
+					map.get(i).getMatchupList().add(new Matchup(new Element(Element.ELEMENT_NAMES[j]), matrix[i][j]));
 		}
 		
 		return map;

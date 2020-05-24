@@ -3,42 +3,82 @@ package worldorder;
 import java.util.Arrays;
 import java.util.Map;
 
+import it.unibs.fp.mylib.InputDati;
+
 public class WorldOrderMain {
 	
+	private static final String GAME_CLOSED = "Game successfully closed!";
+	private static final String FINAL_MESSAGE = "Player %d wins is the final winner!";
+	private static final String EQUILIBRIUM_REVEALEAD = "Equilibrium revealead: ";
+	private static final String ASTERISCHI = "**************************************************************";
+	private static final String PLAY_AGAIN = "Would you like to play again?";
+	private static final String WELCOME = "WELCOME TO THE TAMAGOLEM, THE GAME!!!";
+
+
 	public static void main(String[] args) {
-		int num = 2;
-		int parts = 4;
-		int elementNumber = 15;
-		int sumRow = 0;
-		int[][] matrix = Equilibrium.getHighMatrix(elementNumber);
-		int[][] matrixTrasposed = Equilibrium.getLowMatrix(matrix);
-		int[][] matrixAntisymmetric = Equilibrium.antisymmetricMatrix(matrix, matrixTrasposed);
 		
+		System.out.println(WELCOME);
+		boolean anotherGame;
 		
-//		int[] breakParts = Arrays.copyOf(Equilibrium.breakUpInteger(-num, parts, elementNumber), parts);
-//		for (int i : breakParts)
-//			System.out.println(i);
+		do {
+		int elementNumber = InputDati.leggiIntero("How many elements?", 4, Element.ELEMENT_NAMES.length);
+		int[][] matrix = Equilibrium.getEquilibriumMatrix(elementNumber);
+		Map<Integer, Element> map = Equilibrium.getRandomElementMap(matrix);
 		
-		Equilibrium.printMatrix(matrix);
-		System.out.println();
-		Equilibrium.printMatrix(matrixTrasposed);
-		System.out.println();
-		Equilibrium.printMatrix(matrixAntisymmetric);
-		System.out.println();
+		int stonesCount = (int)Math.ceil((elementNumber + 1) / 3 + 1);
+		int tamaGolemCount = (int)Math.ceil((elementNumber - 2) * (elementNumber - 1) / (2 * stonesCount));
+		int[] stonesStack = new int[elementNumber];
+		Arrays.fill(stonesStack, (int)Math.ceil(2 * stonesCount * tamaGolemCount / elementNumber));
+		int tamaGolemLife = Equilibrium.getMatrixMax(matrix);
 		
-		for (int i = 0; i<elementNumber;i++) {
-			System.out.println("Column " + (i+1) + " : " + Equilibrium.getSumOfAMatrixColumn(matrixAntisymmetric, i));
-			for(int j = 0; j<elementNumber;j++)
-				sumRow += matrixAntisymmetric[i][j];
-			System.out.println("Row " + (i+1) + " : " + sumRow);
-		}
-		System.out.println();
-		Map<Integer, Element> map = Equilibrium.getRandomElementMap(matrixAntisymmetric);
+		int result = GolemFight.golemMultipleFights(tamaGolemCount, tamaGolemLife, stonesCount, map);
+		
+		System.out.println(String.format(FINAL_MESSAGE, result));
+		
+		System.out.println(ASTERISCHI);
+		System.out.println(EQUILIBRIUM_REVEALEAD);
 		for(int i = 0; i<map.size();i++) {
 			System.out.println("###Element name: " + map.get(i).getElementName());
 			for (int j=0;j<map.get(i).getMatchupList().size();j++)
 				System.out.println(String.format("%d° Power: >%d< Vs--> %s",(j+1),  map.get(i).getMatchupList().get(j).getMatchupPower(), map.get(i).getMatchupList().get(j).getWinningElement().getElementName()));
 		}
+		System.out.println(ASTERISCHI);
+		
+		anotherGame = InputDati.yesOrNo(PLAY_AGAIN);
+		}while (anotherGame);
+		
+		
+		System.out.println(GAME_CLOSED);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 	}
 
 }
