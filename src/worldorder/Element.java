@@ -7,7 +7,7 @@ import it.unibs.fp.mylib.InputDati;
 
 public class Element {
 	
-	private static final String ELEMENTS_PRINT_FORMAT = "%d ---> %s";
+	private static final String STONES_FINISHED = String.format(">>>All stones of the chosen element are finished!%nChoose another element: ");
 	private static final String STONE_CHOICE = "Insert your choice: ";
 	public static final String[] ELEMENT_NAMES = {
 			"NORMAL",
@@ -40,16 +40,24 @@ public class Element {
 	 * metodo che stampa la lista degli elementi di una mappa
 	 * chiede il valore della chiave cercata 
 	 * @param map la mappa del equilibrio
-	 * @return l'elemento corrispondente
+	 * @param stonesStack la raccolta di pietre da aggiornare
+	 * @return un oggetto di tipo result con:
+	 * 1. l'element scelto
+	 * 2. la raccolta di pietre aggiornata
+	 * 3. 0
+	 * 4. 0
 	 */
-	public static Element getElement(Map<Integer, Element> map) {
+	public static Result getElement(Map<Integer, Element> map, int[] stonesStack) {
 		int scelta;
 		
-		for(int i = 0; i<map.size(); i++)
-			System.out.println(String.format(ELEMENTS_PRINT_FORMAT, i, map.get(i).getElementName()));
-		scelta = InputDati.leggiIntero(STONE_CHOICE, 0, map.size());
-
-		return map.get(scelta);
+		do {
+			scelta = InputDati.leggiIntero(STONE_CHOICE, 0, map.size()-1);
+			if (stonesStack[scelta] < 0)
+				System.out.println(STONES_FINISHED);
+		}while(stonesStack[scelta] < 0);
+		
+		stonesStack[scelta]--;
+		return new Result(map.get(scelta), stonesStack, 0, 0);
 	}
 
 

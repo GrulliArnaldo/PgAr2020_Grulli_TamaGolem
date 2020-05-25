@@ -12,6 +12,7 @@ public class TamaGolem {
 		this.lifePoints = lifePoints;
 	}
 	
+	//GETTERS AND SETTERS
 	public int getLifePoints() {
 		return lifePoints;
 	}
